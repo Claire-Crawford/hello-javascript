@@ -1,0 +1,71 @@
+<html>
+	<head>
+		<title>To-Do Sample</title>
+	</head>
+	<body>
+
+		<h1>To-Do List</h1>
+
+		<input type="text" name="new" id="new" placeholder="New Task">
+		<button type="button" onClick="addNew();">Save</button>
+
+		<hr>
+
+		<h3>Current Tasks</h3>
+		<ul id="tasks">
+		</ul>
+		<button type="button" onClick="clearAll();">Clear All</button>
+
+	<script>
+
+		// Any global settings that are needed for this to run.
+		function init() {
+			let list = document.getElementById("tasks");
+			list.onclick = update;
+		}
+
+		// Put a new task on the list
+		function addNew() {
+			let newTask = document.getElementById("new");
+
+			let list = document.getElementById("tasks");
+			let li = document.createElement("li");
+			li.innerHTML = `<span class="delete">&times;</span><input type="checkbox" class="done"> <label>${newTask.value}</label>`;
+			list.appendChild(li);
+
+			newTask.value = null; // The new task is added.
+		}
+
+		// Change the list depending on the action and task clicked.
+		function update(event) {
+			if (event.target.className == "delete") {
+				let task = event.target.parentNode;
+				let list = task.parentNode;
+				list.removeChild(task);
+			}
+
+			if (event.target.className == "done") {
+				let checkbox = event.target;
+				let task = checkbox.nextSibling.nextSibling;
+				if (checkbox.checked) {
+					task.style.textDecoration = "line-through";
+				}
+				else {
+					task.style.textDecoration = "none";
+				}
+			}
+		}
+
+		// Remove any tasks from the list.
+		function clearAll() {
+			let list = document.getElementById("tasks");
+			list.innerHTML = null;
+		}
+
+		// Make sure to initialize the script.
+		init();
+
+	</script>
+
+	</body>
+</html>	
